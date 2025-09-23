@@ -8,6 +8,14 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = "__all__"
 
+    def validate_video_url(self, value):
+        """Валидация URL видео"""
+        if value and not value.startswith(("http://", "https://")):
+            raise serializers.ValidationError(
+                "URL должен начинаться с http:// или https://"
+            )
+        return value
+
 
 class CourseSerializer(serializers.ModelSerializer):
     lessons_count = serializers.SerializerMethodField()
