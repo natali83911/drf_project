@@ -3,10 +3,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, permissions, viewsets
 
 from .models import Payment
+from .permissions import IsModerator
 from .serializers import PaymentSerializer, RegisterSerializer, UserSerializer
 
 User = get_user_model()
 
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, IsModerator]
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -15,17 +21,16 @@ class RegisterView(generics.CreateAPIView):
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
 
-    def perform_create(self, serializer):
-        user = serializer.save(is_active=True)
-        user.set_password(user.password)
-        user.save()
+    # def perform_create(self, serializer):
+    #     user = serializer.save(is_active=True)
+    #     user.set_password(user.password)
+    #     user.save()
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
