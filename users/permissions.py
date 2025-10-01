@@ -13,7 +13,8 @@ class IsOwner(BasePermission):
 
 class IsOwnerOrModerator(BasePermission):
     """Разрешение для владельца или модератора."""
+
     def has_object_permission(self, request, view, obj):
         is_owner = obj.owner == request.user
-        is_moderator = request.user.groups.filter(name='moderators').exists()
+        is_moderator = request.user.groups.filter(name="moderators").exists()
         return is_owner or is_moderator

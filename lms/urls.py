@@ -1,11 +1,9 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (
-    CourseViewSet,
-    LessonListCreateAPIView,
-    LessonRetrieveUpdateDestroyAPIView,
-)
+from .views import (CourseViewSet, LessonListCreateAPIView,
+                    LessonRetrieveUpdateDestroyAPIView,
+                    SubscriptionToggleAPIView)
 
 app_name = "lms"
 
@@ -20,6 +18,9 @@ urlpatterns = [
         LessonRetrieveUpdateDestroyAPIView.as_view(),
         name="lesson-detail",
     ),
+    path(
+        "subscriptions/toggle/",
+        SubscriptionToggleAPIView.as_view(),
+        name="subscription-toggle",
+    ),
 ]
-
-urlpatterns += router.urls
