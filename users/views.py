@@ -3,7 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, permissions, viewsets
 
 from .models import Payment
-from .permissions import IsModerator
+from .permissions import IsOwnerOrModeratorCanEditReadNoCreateDelete
 from .serializers import PaymentSerializer, RegisterSerializer, UserSerializer
 
 User = get_user_model()
@@ -12,7 +12,10 @@ User = get_user_model()
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, IsModerator]
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsOwnerOrModeratorCanEditReadNoCreateDelete,
+    ]
 
 
 class RegisterView(generics.CreateAPIView):
