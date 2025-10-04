@@ -1,19 +1,40 @@
+from rest_framework import permissions
 from rest_framework.permissions import BasePermission
 
 
-class IsModerator(BasePermission):
+class IsOwnerOrModeratorCanEditReadNoCreateDelete(BasePermission):
+    """
+    Модераторы могут читать и редактировать любые объекты,
+    но НЕ создавать и НЕ удалять.
+    Владельцы могут читать, редактировать и удалять свои объекты.
+    """
+
     def has_permission(self, request, view):
-        return request.user.groups.filter(name="moderators").exists()
+        user = request.user
+        is_moderator = user.groups.filter(name="moderators").exists()
 
+        if not user.is_authenticated:
+            return False
 
-class IsOwner(BasePermission):
+        # Модераторы запрещено создавать и удалять
+        if is_moderator and request.method in ["POST", "DELETE"]:
+            return False
+
+        return True  # остальные запросы всем аутентифицированным открыты
+
     def has_object_permission(self, request, view, obj):
-        return obj.owner == request.user
+        user = request.user
+        is_moderator = user.groups.filter(name="moderators").exists()
 
+        # Модераторы могут читать и редактировать, но не создавать и удалять (уже проверено в has_permission)
+        if is_moderator:
+            if request.method in permissions.SAFE_METHODS or request.method in [
+                "PUT",
+                "PATCH",
+            ]:
+                return True
+            else:
+                return False
 
-class IsOwnerOrModerator(BasePermission):
-    """Разрешение для владельца или модератора."""
-    def has_object_permission(self, request, view, obj):
-        is_owner = obj.owner == request.user
-        is_moderator = request.user.groups.filter(name='moderators').exists()
-        return is_owner or is_moderator
+        # Владельцы могут всё со своими объектами
+        return obj.owner == user
