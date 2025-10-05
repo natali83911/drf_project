@@ -9,4 +9,6 @@ black==25.1.0
 pillow==11.3.0
 coverage==7.10.7
 pytest-django==4.11.1
+drf-spectacular==0.28.0
+stripe==13.0.1
 
