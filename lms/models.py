@@ -30,6 +30,14 @@ class Course(models.Model):
         help_text="Укажите владельца курса",
     )
 
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Цена курса",
+        help_text="Укажите стоимость курса",
+        default=0,
+    )
+
     def __str__(self):
         return self.title
 
