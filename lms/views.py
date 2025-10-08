@@ -8,6 +8,7 @@ from users.permissions import IsOwnerOrModeratorCanEditReadNoCreateDelete
 from .models import Course, Lesson, Subscription
 from .paginators import StandardPagination
 from .serializers import CourseSerializer, LessonSerializer
+from .tasks import send_course_update_email
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -26,6 +27,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        send_course_update_email.delay(course.id)
 
 
 class LessonListCreateAPIView(generics.ListCreateAPIView):

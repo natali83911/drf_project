@@ -12,4 +12,7 @@ pytest-django==4.11.1
 drf-spectacular==0.28.0
 stripe==13.0.1
 forex-python==1.9.2
-
+celery==5.5.3
+django-celery-beat==2.8.1
+eventlet==0.40.3
+redis==6.4.0
