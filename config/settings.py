@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -145,6 +146,13 @@ CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = REDIS_URL
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+CELERY_BEAT_SCHEDULE = {
+    "deactivate-inactive-users-every-midnight": {
+        "task": "yourapp.tasks.deactivate_inactive_users",
+        "schedule": crontab(hour=0, minute=0),  # запускать каждый день в полночь
+    },
+}
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
