@@ -149,7 +149,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {
     "deactivate-inactive-users-every-midnight": {
-        "task": "yourapp.tasks.deactivate_inactive_users",
+        "task": "lms.tasks.deactivate_inactive_users",
         "schedule": crontab(hour=0, minute=0),  # запускать каждый день в полночь
     },
 }
