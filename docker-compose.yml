@@ -50,6 +50,21 @@ services:
     networks:
       - app_network
 
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/app/staticfiles
+    networks:
+      - app_network
+
+
   celery_worker:
     build:
       context: .
