@@ -1,0 +1,41 @@
+# Исключить git-репозиторий и служебные файлы git
+.git
+.gitignore
+
+# Виртуальные окружения
+.venv
+venv
+
+# Логи и временные файлы
+*.log
+__pycache__
+*.py[cod]
+*$py.class
+
+# Файлы зависимостей Poetry и Python
+*.pyc
+*.pyo
+*.pyd
+
+# Системные файлы и IDE
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Файлы настроек среды
+.env
+.env.*
+
+# Статические и служебные каталоги, которые генерируются
+staticfiles
+media
+
+# Кэш
+*.cache
+.cache/
+
+# Дополнительно можно исключить docker-compose.override.yaml, если не используете
+docker-compose.override.yml
+
+test_db.sqlite3
