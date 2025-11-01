@@ -3,8 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
-      - feature/homework_32_5
+      - '*'
 
 jobs:
   test:
