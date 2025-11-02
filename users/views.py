@@ -10,8 +10,12 @@ from rest_framework.response import Response
 from .models import Course, Payment
 from .permissions import IsOwnerOrModeratorCanEditReadNoCreateDelete
 from .serializers import PaymentSerializer, RegisterSerializer, UserSerializer
-from .services import (convert_usd_to_rub, create_checkout_session,
-                       create_stripe_price, create_stripe_product)
+from .services import (
+    convert_usd_to_rub,
+    create_checkout_session,
+    create_stripe_price,
+    create_stripe_product,
+)
 
 User = get_user_model()
 

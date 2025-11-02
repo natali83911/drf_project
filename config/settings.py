@@ -66,14 +66,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("NAME", "drf_project"),
-        "USER": os.getenv("USER", "postgres"),
-        "PASSWORD": os.getenv("PASSWORD", "12345"),
+        "NAME": os.getenv("POSTGRES_DB", "drf_project"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "12345"),
         "HOST": os.getenv("HOST", "db"),
         "PORT": os.getenv("PORT", "5432"),
         "CONN_MAX_AGE": 0,
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,8 +102,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = str(STATIC_ROOT)
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
